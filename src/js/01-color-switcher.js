@@ -8,8 +8,8 @@ const refs = {
   start: document.querySelector('[data-start]'),
   stop: document.querySelector('[data-stop]'),
 };
-let interval;
 const fn = {
+  interval: undefined,
   // Начинам менять цвет
   start: function onStart() {
     refs.start.disabled = true;
@@ -18,10 +18,11 @@ const fn = {
     interval = setInterval(() => {
       document.body.style.backgroundColor = getRandomHexColor();
     }, 1000);
+
   },
 
   // Останавливаем менять цвет
-  stop: function onStop() {
+  stop: function onStop(re) {
     refs.start.disabled = false;
     refs.stop.disabled = true;
 
