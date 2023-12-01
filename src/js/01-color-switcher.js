@@ -15,7 +15,7 @@ const fn = {
     refs.start.disabled = true;
     refs.stop.disabled = false;
 
-    interval = setInterval(() => {
+    fn.interval = setInterval(() => {
       document.body.style.backgroundColor = getRandomHexColor();
     }, 1000);
 
@@ -26,7 +26,7 @@ const fn = {
     refs.start.disabled = false;
     refs.stop.disabled = true;
 
-    clearInterval(interval);
+    clearInterval(fn.interval);
   },
 };
 
