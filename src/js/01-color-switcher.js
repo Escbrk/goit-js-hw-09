@@ -4,33 +4,28 @@ function getRandomHexColor() {
     .padStart(6, 0)}`;
 }
 
+let INTERVAL_ID
+
 const refs = {
   start: document.querySelector('[data-start]'),
   stop: document.querySelector('[data-stop]'),
 };
+refs.start.addEventListener('click', onStart);
+refs.stop.addEventListener('click', onStop);
 
-refs.start.addEventListener('click', fn.start);
-refs.stop.addEventListener('click', fn.stop);
+function onStart() {
+  refs.start.disabled = true;
+  refs.stop.disabled = false;
 
-const fn = {
-  INTERVAL_ID: undefined,
-  // Начинам менять цвет
-  start: function onStart() {
-    refs.start.disabled = true;
-    refs.stop.disabled = false;
+  INTERVAL_ID = setInterval(() => {
+    document.body.style.backgroundColor = getRandomHexColor();
+  }, 1000);
+}
 
-    fn.INTERVAL_ID = setInterval(() => {
-      document.body.style.backgroundColor = getRandomHexColor();
-    }, 1000);
+// Останавливаем менять цвет
+function onStop() {
+  refs.start.disabled = false;
+  refs.stop.disabled = true;
 
-  },
-
-  // Останавливаем менять цвет
-  stop: function onStop(re) {
-    refs.start.disabled = false;
-    refs.stop.disabled = true;
-
-    clearInterval(fn.INTERVAL_ID);
-  },
-};
-
+  clearInterval(INTERVAL_ID);
+}
