@@ -8,7 +8,6 @@ const refs = {
   start: document.querySelector('[data-start]'),
   stop: document.querySelector('[data-stop]'),
 };
-refs.stop.disabled = true;
 
 const fn = {
   // Начинам менять цвет
