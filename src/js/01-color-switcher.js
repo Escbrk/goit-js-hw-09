@@ -8,8 +8,10 @@ const refs = {
   start: document.querySelector('[data-start]'),
   stop: document.querySelector('[data-stop]'),
 };
+refs.stop.disabled = true;
 
 const fn = {
+  // Начинам менять цвет
   start: function onStart() {
     refs.start.disabled = true;
     refs.stop.disabled = false;
@@ -19,6 +21,7 @@ const fn = {
     }, 1000);
   },
 
+  // Останавливаем менять цвет
   stop: function onStop() {
     refs.start.disabled = false;
     refs.stop.disabled = true;
@@ -26,8 +29,6 @@ const fn = {
     clearInterval(interval);
   },
 };
-
-refs.stop.disabled = true;
 
 refs.start.addEventListener('click', fn.start);
 refs.stop.addEventListener('click', fn.stop);
