@@ -21,8 +21,6 @@ function onStart() {
     document.body.style.backgroundColor = getRandomHexColor();
   }, 1000);
 }
-
-// Останавливаем менять цвет
 function onStop() {
   refs.start.disabled = false;
   refs.stop.disabled = true;
