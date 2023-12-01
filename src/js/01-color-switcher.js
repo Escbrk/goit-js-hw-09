@@ -8,7 +8,7 @@ const refs = {
   start: document.querySelector('[data-start]'),
   stop: document.querySelector('[data-stop]'),
 };
-
+let interval;
 const fn = {
   // Начинам менять цвет
   start: function onStart() {
