@@ -8,14 +8,18 @@ const refs = {
   start: document.querySelector('[data-start]'),
   stop: document.querySelector('[data-stop]'),
 };
+
+refs.start.addEventListener('click', fn.start);
+refs.stop.addEventListener('click', fn.stop);
+
 const fn = {
-  interval: undefined,
+  INTERVAL_ID: undefined,
   // Начинам менять цвет
   start: function onStart() {
     refs.start.disabled = true;
     refs.stop.disabled = false;
 
-    fn.interval = setInterval(() => {
+    fn.INTERVAL_ID = setInterval(() => {
       document.body.style.backgroundColor = getRandomHexColor();
     }, 1000);
 
@@ -26,9 +30,7 @@ const fn = {
     refs.start.disabled = false;
     refs.stop.disabled = true;
 
-    clearInterval(fn.interval);
+    clearInterval(fn.INTERVAL_ID);
   },
 };
 
-refs.start.addEventListener('click', fn.start);
-refs.stop.addEventListener('click', fn.stop);
