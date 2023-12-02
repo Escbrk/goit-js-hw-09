@@ -61,12 +61,12 @@ refs.stopBtn.addEventListener('click', onStop);
 refs.resetBtn.addEventListener('click', onReset);
 
 const pickedDate = flatpickr(refs.input, options);
-// const { days, hours, minutes, seconds } = pickedDate;
 
 function onStart() {
   refs.startBtn.disabled = true;
   refs.stopBtn.disabled = false;
   refs.resetBtn.disabled = true;
+  refs.input.disabled = true
 
   Report.success('Timer started');
   timer = setInterval(() => {
@@ -95,6 +95,7 @@ function onStop() {
   refs.startBtn.disabled = false;
   refs.stopBtn.disabled = true;
   refs.resetBtn.disabled = false;
+  refs.input.disabled = false;
 }
 
 function onReset() {
