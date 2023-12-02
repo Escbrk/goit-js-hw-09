@@ -1,5 +1,22 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import { Report } from 'notiflix';
+
+const refs = {
+  input: document.querySelector('#datetime-picker'),
+  startBtn: document.querySelector('[data-start]'),
+  stopBtn: document.querySelector('[data-stop]'),
+  resetBtn: document.querySelector('[data-reset]'),
+  timerForm: document.querySelector('.timer'),
+
+  date: {
+    days: document.querySelector('[data-days]'),
+    hours: document.querySelector('[data-hours]'),
+    minutes: document.querySelector('[data-minutes]'),
+    seconds: document.querySelector('[data-seconds]'),
+  },
+};
+let timer;
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -27,31 +44,76 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
+    const selectedDate = selectedDates[0];
+    refs.resetBtn.disabled = false;
+
+    if (options.defaultDate >= selectedDate) {
+      Report.warning('Please, choose a date in the future!');
+      refs.startBtn.disabled = true;
+    } else {
+      refs.startBtn.disabled = false;
+    }
   },
 };
 
+refs.startBtn.addEventListener('click', onStart);
+refs.stopBtn.addEventListener('click', onStop);
+refs.resetBtn.addEventListener('click', onReset);
 
+const pickedDate = flatpickr(refs.input, options);
+// const { days, hours, minutes, seconds } = pickedDate;
 
-const refs = {
-  input: document.querySelector('#datetime-picker'),
-  button: document.querySelector('[data-start]'),
-  timer: document.querySelector('.timer'),
-  date: {
-    days: document.querySelector('[data-days]'),
-    hours: document.querySelector('[data-hours]'),
-    minutes: document.querySelector('[data-minutes]'),
-    seconds: document.querySelector('[data-seconds]'),
-  },
-};
+function onStart() {
+  refs.startBtn.disabled = true;
+  refs.stopBtn.disabled = false;
+  refs.resetBtn.disabled = true;
 
-flatpickr(refs.input, options);
+  Report.success('Timer started');
+  timer = setInterval(() => {
+    const futureDate = pickedDate.selectedDates[0];
+    const currentDate = new Date();
+    const targetDate = futureDate - currentDate;
+    const intervalTimer = convertMs(targetDate);
 
+    refs.date.days.textContent = padStart(intervalTimer.days);
+    refs.date.hours.textContent = padStart(intervalTimer.hours);
+    refs.date.minutes.textContent = padStart(intervalTimer.minutes);
+    refs.date.seconds.textContent = padStart(intervalTimer.seconds);
 
-setInterval(() => {
-  const currentDate = options.defaultDate;
+    if (targetDate < 1000) {
+      clearInterval(timer);
+      Report.success("Time's up");
+      refs.startBtn.disabled = false;
+      refs.stopBtn.disabled = true;
+      refs.resetBtn.disabled = true;
+    }
+  }, 1000);
+}
 
-//   refs.date.days.textContent = convertMs(targetDate - currentDate.getDate);
-}, 1000);
+function onStop() {
+  clearInterval(timer);
+  refs.startBtn.disabled = false;
+  refs.stopBtn.disabled = true;
+  refs.resetBtn.disabled = false;
+}
 
+function onReset() {
+  const date = new Date();
+  const currentFormatDate = {
+    year: date.getFullYear(),
+    month: padStart((date.getMonth() + 1)),
+    day: padStart(date.getDate()),
+    hours: padStart(date.getHours()),
+    minutes: padStart(date.getMinutes()),
+  };
 
+  refs.input.value = `${currentFormatDate.year}-${currentFormatDate.month}-${currentFormatDate.day} ${currentFormatDate.hours}:${currentFormatDate.minutes}`;
+  refs.date.days.textContent = '00';
+  refs.date.hours.textContent = '00';
+  refs.date.minutes.textContent = '00';
+  refs.date.seconds.textContent = '00';
+}
 
+function padStart(data) {
+  return data.toString().padStart(2, 0);
+}
