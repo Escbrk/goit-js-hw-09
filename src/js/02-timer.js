@@ -43,11 +43,9 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-    const selectedDate = selectedDates[0];
     refs.resetBtn.disabled = false;
 
-    if (options.defaultDate >= selectedDate) {
+    if (options.defaultDate >= selectedDates[0]) {
       Report.warning('Please, choose a date in the future!');
       refs.startBtn.disabled = true;
     } else {
@@ -66,7 +64,7 @@ function onStart() {
   refs.startBtn.disabled = true;
   refs.stopBtn.disabled = false;
   refs.resetBtn.disabled = true;
-  refs.input.disabled = true
+  refs.input.disabled = true;
 
   Report.success('Timer started');
   timer = setInterval(() => {
@@ -86,12 +84,18 @@ function onStart() {
       refs.startBtn.disabled = false;
       refs.stopBtn.disabled = true;
       refs.resetBtn.disabled = true;
+
+      refs.date.days.textContent = '00';
+      refs.date.hours.textContent = '00';
+      refs.date.minutes.textContent = '00';
+      refs.date.seconds.textContent = '00';
     }
   }, 1000);
 }
 
 function onStop() {
   clearInterval(timer);
+
   refs.startBtn.disabled = false;
   refs.stopBtn.disabled = true;
   refs.resetBtn.disabled = false;
@@ -102,13 +106,14 @@ function onReset() {
   const date = new Date();
   const currentFormatDate = {
     year: date.getFullYear(),
-    month: padStart((date.getMonth() + 1)),
+    month: padStart(date.getMonth() + 1),
     day: padStart(date.getDate()),
     hours: padStart(date.getHours()),
     minutes: padStart(date.getMinutes()),
   };
 
   refs.input.value = `${currentFormatDate.year}-${currentFormatDate.month}-${currentFormatDate.day} ${currentFormatDate.hours}:${currentFormatDate.minutes}`;
+
   refs.date.days.textContent = '00';
   refs.date.hours.textContent = '00';
   refs.date.minutes.textContent = '00';
