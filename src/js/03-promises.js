@@ -33,13 +33,14 @@ function onSubmit(e) {
 
   for (let i = 1; i <= amountToNum; i += 1) {
     if (i <= amountToNum) {
-      createPromise(i, delayToNum+=stepToNum)
+      createPromise(i, delayToNum)
         .then(({ position, delay }) => {
           Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
         })
         .catch(({ position, delay }) => {
           Notify.failure(`Rejected promise ${position} in ${delay}ms`);
         });
+      delayToNum += stepToNum;
     }
   }
 
