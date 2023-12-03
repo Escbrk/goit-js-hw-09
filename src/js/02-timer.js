@@ -69,8 +69,10 @@ function onStart() {
   const futureDate = pickedDate.selectedDates[0];
   const currentDate = new Date();
   const targetDate = futureDate - currentDate;
+  
   setTimeout(() => {
     refs.input.disabled = false
+    refs.resetBtn.disabled = false
   }, targetDate);
 
   Report.success('Timer started');
