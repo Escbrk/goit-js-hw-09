@@ -8,18 +8,18 @@ const refs = {
   submitBtn: document.querySelector('[type="submit"]'),
 };
 
-let intervalId;
-
 function createPromise(position, delay) {
   const obj = { position, delay };
   const shouldResolve = Math.random() > 0.3;
 
   return new Promise((res, rej) => {
-    if (shouldResolve) {
-      res(obj);
-    } else {
-      rej(obj);
-    }
+    setInterval(() => {
+      if (shouldResolve) {
+        res(obj);
+      } else {
+        rej(obj);
+      }
+    }, delay);
   });
 }
 
@@ -27,29 +27,20 @@ refs.submitBtn.addEventListener('click', onSubmit);
 
 function onSubmit(e) {
   e.preventDefault();
-  const delayToNum = Number(refs.delay.value);
+  let delayToNum = Number(refs.delay.value);
   const stepToNum = Number(refs.step.value);
   const amountToNum = Number(refs.amount.value);
 
-  let totalMs;
-
-  for (let i = 0; i < toNum; i += 1) {
-    if (i > amountToNum) {
-
+  for (let i = 1; i <= amountToNum; i += 1) {
+    if (i <= amountToNum) {
+      createPromise(i, delayToNum+=stepToNum)
+        .then(({ position, delay }) => {
+          Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+        })
+        .catch(({ position, delay }) => {
+          Notify.failure(`Rejected promise ${position} in ${delay}ms`);
+        });
     }
+  }
 
-  intervalId = setInterval(() => {
-    createPromise(delayToNum, stepToNum)
-      .then(({ position, delay }) => {
-        Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
-        console.log(0);
-      })
-      .catch(({ position, delay }) => {
-        Notify.failure(`Rejected promise ${position} in ${delay}ms`);
-      });
-  }, totalMs);
-
-  clearIntervalId()
 }
-
-
