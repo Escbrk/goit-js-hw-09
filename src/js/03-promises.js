@@ -16,10 +16,8 @@ function createPromise(position, delay) {
 
   return new Promise((res, rej) => {
     if (shouldResolve) {
-      // Fulfill
       res(obj);
     } else {
-      // Reject
       rej(obj);
     }
   });
@@ -31,21 +29,27 @@ function onSubmit(e) {
   e.preventDefault();
   const delayToNum = Number(refs.delay.value);
   const stepToNum = Number(refs.step.value);
+  const amountToNum = Number(refs.amount.value);
+
   let totalMs;
-  const toNum = Number(refs.amount.value);
 
   for (let i = 0; i < toNum; i += 1) {
-    totalMs = delayToNum + stepToNum;
-    clearInterval(intervalId);
-  }
+    if (i > amountToNum) {
+
+    }
 
   intervalId = setInterval(() => {
     createPromise(delayToNum, stepToNum)
       .then(({ position, delay }) => {
         Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+        console.log(0);
       })
       .catch(({ position, delay }) => {
         Notify.failure(`Rejected promise ${position} in ${delay}ms`);
       });
-  }, delayToNum);
+  }, totalMs);
+
+  clearIntervalId()
 }
+
+
