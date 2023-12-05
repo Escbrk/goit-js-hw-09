@@ -32,15 +32,13 @@ function onSubmit(e) {
   const amountToNum = Number(refs.amount.value);
 
   for (let i = 1; i <= amountToNum; i += 1) {
-    if (i <= amountToNum) {
-      createPromise(i, delayToNum)
-        .then(({ position, delay }) => {
-          Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
-        })
-        .catch(({ position, delay }) => {
-          Notify.failure(`Rejected promise ${position} in ${delay}ms`);
-        });
-      delayToNum += stepToNum;
-    }
+    createPromise(i, delayToNum)
+      .then(({ position, delay }) => {
+        Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+        Notify.failure(`Rejected promise ${position} in ${delay}ms`);
+      });
+    delayToNum += stepToNum;
   }
 }
