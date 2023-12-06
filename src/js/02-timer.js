@@ -113,7 +113,6 @@ function onStop() {
 
 function onReset() {
   const date = new Date();
-  pickedDate = date;
   const currentFormatDate = {
     year: date.getFullYear(),
     month: padStart(date.getMonth() + 1),
@@ -122,10 +121,8 @@ function onReset() {
     minutes: padStart(date.getMinutes()),
   };
 
-  if (pickedDate === date) {
-    refs.startBtn.disabled = true;
-    refs.resetBtn.disabled = true;
-  }
+  refs.startBtn.disabled = true;
+  refs.resetBtn.disabled = true;
 
   refs.input.value = `${currentFormatDate.year}-${currentFormatDate.month}-${currentFormatDate.day} ${currentFormatDate.hours}:${currentFormatDate.minutes}`;
 
