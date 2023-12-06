@@ -58,7 +58,7 @@ refs.startBtn.addEventListener('click', onStart);
 refs.stopBtn.addEventListener('click', onStop);
 refs.resetBtn.addEventListener('click', onReset);
 
-const pickedDate = flatpickr(refs.input, options);
+let pickedDate = flatpickr(refs.input, options);
 
 function onStart() {
   refs.startBtn.disabled = true;
@@ -69,10 +69,10 @@ function onStart() {
   const futureDate = pickedDate.selectedDates[0];
   const currentDate = new Date();
   const targetDate = futureDate - currentDate;
-  
+
   setTimeout(() => {
-    refs.input.disabled = false
-    refs.resetBtn.disabled = false
+    refs.input.disabled = false;
+    refs.resetBtn.disabled = false;
   }, targetDate);
 
   Report.success('Timer started');
@@ -113,6 +113,7 @@ function onStop() {
 
 function onReset() {
   const date = new Date();
+  pickedDate = date;
   const currentFormatDate = {
     year: date.getFullYear(),
     month: padStart(date.getMonth() + 1),
@@ -120,6 +121,11 @@ function onReset() {
     hours: padStart(date.getHours()),
     minutes: padStart(date.getMinutes()),
   };
+
+  if (pickedDate === date) {
+    refs.startBtn.disabled = true;
+    refs.resetBtn.disabled = true;
+  }
 
   refs.input.value = `${currentFormatDate.year}-${currentFormatDate.month}-${currentFormatDate.day} ${currentFormatDate.hours}:${currentFormatDate.minutes}`;
 
