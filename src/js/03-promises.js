@@ -52,20 +52,29 @@ const refs = {
 refs.submitBtn.addEventListener('click', onSubmit);
 
 function onSubmit(e) {
-    e.preventDefault()    
-    createPromise()
+  e.preventDefault();
+
+    const delayToNum = Number(refs.delayInput.value);
+
+  createPromise(delayToNum)
+    .then(() => {
+      Notify.success(`Fulfilled promise in ${delayToNum}ms`);
+    })
+    .catch(() => {
+      Notify.failure(`Rejected promise in ${delayToNum}ms`);
+    });
 }
 
 function createPromise(delay) {
-    return new Promise((res, rej) => {
-      const delayToNum = Number(refs.delayInput.value);
-      setTimeout(() => {
-        if (refs.fulfilled.checked) {
-          Notify.success(`Fulfilled promise in ${delayToNum}ms`);
-        }
-        if (refs.rejected.checked) {
-          Notify.failure(`Rejected promise in ${delayToNum}ms`);
-        }
-      }, delayToNum);
-    });
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      if (refs.fulfilled.checked) {
+        res();
+      }
+      if (refs.rejected.checked) {
+        rej();
+      }
+    }, delay);
+  });
 }
+
