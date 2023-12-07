@@ -53,15 +53,14 @@ refs.submitBtn.addEventListener('click', onSubmit);
 
 function onSubmit(e) {
   e.preventDefault();
+  const delay = Number(refs.delayInput.value);
 
-  const delayToNum = Number(refs.delayInput.value);
-
-  createPromise(delayToNum)
+  createPromise(delay)
     .then(() => {
-      Notify.success(`Fulfilled promise in ${delayToNum}ms`);
+      Notify.success(`Fulfilled promise in ${delay}ms`);
     })
     .catch(() => {
-      Notify.failure(`Rejected promise in ${delayToNum}ms`);
+      Notify.failure(`Rejected promise in ${delay}ms`);
     });
 }
 
