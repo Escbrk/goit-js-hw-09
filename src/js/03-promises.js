@@ -54,7 +54,7 @@ refs.submitBtn.addEventListener('click', onSubmit);
 function onSubmit(e) {
   e.preventDefault();
 
-    const delayToNum = Number(refs.delayInput.value);
+  const delayToNum = Number(refs.delayInput.value);
 
   createPromise(delayToNum)
     .then(() => {
@@ -77,4 +77,3 @@ function createPromise(delay) {
     }, delay);
   });
 }
-
