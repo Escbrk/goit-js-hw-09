@@ -72,7 +72,7 @@ function onStart() {
 
   setTimeout(() => {
     refs.input.disabled = false;
-    refs.resetBtn.disabled = false;
+    // refs.resetBtn.disabled = false;
   }, targetDate);
 
   Report.success('Timer started');
@@ -90,9 +90,7 @@ function onStart() {
     if (targetDate < 1000) {
       clearInterval(timer);
       Report.success("Time's up");
-      refs.startBtn.disabled = false;
       refs.stopBtn.disabled = true;
-      refs.resetBtn.disabled = true;
 
       refs.date.days.textContent = '00';
       refs.date.hours.textContent = '00';
